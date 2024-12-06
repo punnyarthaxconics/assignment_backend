@@ -4,12 +4,15 @@ import path from "path";
 if (process.env.NODE_ENV !== "PRODUCTION") {
   config({ path: path.resolve(__dirname, "../.env") });
 }
+import cors from "cors";
 
 import { env, STATUSCODES } from "./config";
 
 import workerGroupRouter from "./route/worker-group";
 
 const app = express();
+
+app.use(cors());
 
 app.use(express.json());
 
