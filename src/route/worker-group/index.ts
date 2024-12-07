@@ -7,6 +7,6 @@ const router = Router();
 router
   .get("/", asyncHandler(workerGroupController.get))
   .post("/add", asyncHandler(workerGroupController.add))
-  .delete("/remove", asyncHandler(workerGroupController.delete));
+  .delete("/remove/:id", asyncHandler(workerGroupController.delete));
 
 export default router;

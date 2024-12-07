@@ -24,29 +24,32 @@ export const workerGroupController = {
   add: async (req: Request, res: Response) => {
     const workerGroupInfo = workergroupAddSchema.parse(req.body);
 
-    const addUser = await workerGroupAddDB(workerGroupInfo);
+    const addWorkerGroup = await workerGroupAddDB(workerGroupInfo);
 
     // If worker group add fails
-    if (!addUser)
+    if (!addWorkerGroup)
       res
         .status(STATUSCODES.serverErrorCode)
         .json({ error: "Worker group add failed" });
 
     // If added successfully
-    res.json("Worker group added successfully");
+    res.json({
+      message: "Worker group added successfully",
+      data: addWorkerGroup,
+    });
   },
   delete: async (req: Request, res: Response) => {
-    const workerGroupId = workerGroupIdSchema.parse(req.body.id);
+    const workerGroupId = workerGroupIdSchema.parse(req.params.id);
 
-    const addUser = await workerGroupDelDB(workerGroupId);
+    const delWorkerGroup = await workerGroupDelDB(workerGroupId);
 
     // If worker group delete fails
-    if (!addUser)
+    if (!delWorkerGroup)
       res
         .status(STATUSCODES.serverErrorCode)
-        .json({ error: "Worker group add failed" });
+        .json({ error: "Worker group delete failed" });
 
     // If delete successful
-    res.json("Worker group deleted successfully");
+    res.json({ message: "Worker group deleted successfully" });
   },
 };

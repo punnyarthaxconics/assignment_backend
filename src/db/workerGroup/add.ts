@@ -7,7 +7,7 @@ export const workerGroupAddDB = async (wokerGroupInfo: workergroupAddType) => {
       data: wokerGroupInfo,
     });
 
-    return true;
+    return addUserGroup;
   } catch (error) {
     throw error;
   }
