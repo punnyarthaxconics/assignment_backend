@@ -7,6 +7,7 @@ import { workerGroupAddDB } from "../../db/workerGroup/add";
 import { STATUSCODES } from "../../config";
 import { workerGroupDelDB } from "../../db/workerGroup/delete";
 import { getWorkerGroupDB } from "../../db/workerGroup/get";
+import { workerGroupEditDB } from "../../db/workerGroup/edit";
 
 export const workerGroupController = {
   get: async (req: Request, res: Response) => {
@@ -21,6 +22,7 @@ export const workerGroupController = {
     // On successfull db call
     res.json(getWorkerList);
   },
+
   add: async (req: Request, res: Response) => {
     const workerGroupInfo = workergroupAddSchema.parse(req.body);
 
@@ -38,6 +40,30 @@ export const workerGroupController = {
       data: addWorkerGroup,
     });
   },
+
+  edit: async (req: Request, res: Response) => {
+    const workerGroupId = workerGroupIdSchema.parse(req.params.id);
+
+    const workerGroupInfo = workergroupAddSchema.parse(req.body);
+
+    const editWorkerGroup = await workerGroupEditDB(
+      workerGroupInfo,
+      workerGroupId
+    );
+
+    // If worker group edit fails
+    if (!editWorkerGroup)
+      res
+        .status(STATUSCODES.serverErrorCode)
+        .json({ error: "Worker group edit failed" });
+
+    // If edited successfully
+    res.json({
+      message: "Worker group edited successfully",
+      data: editWorkerGroup,
+    });
+  },
+
   delete: async (req: Request, res: Response) => {
     const workerGroupId = workerGroupIdSchema.parse(req.params.id);
 
